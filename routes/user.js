@@ -1,7 +1,7 @@
 const express = require('express');
 
 
-const { requireSignin, AuthMiddleware } = require('../controllers/auth');
+const { requireSignin, AuthMiddleware, DealerMiddleware } = require('../controllers/auth');
 const { getuserById,profileupdate ,read, photo} = require('../controllers/user');
 
 
@@ -15,5 +15,7 @@ router.get("/user/:userId", getuserById);
 router.get("/profile", requireSignin, AuthMiddleware, read);
 router.put("/user/profile", requireSignin, AuthMiddleware, profileupdate);
 router.get("/user/photo/:username", photo);
+
+
 
 module.exports = router;
