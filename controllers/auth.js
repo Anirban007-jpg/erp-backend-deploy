@@ -292,4 +292,123 @@ exports.AuthMiddleware = (req,res,next) => {
     })
 }
 
+exports.DealerMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
 
+        if (user.role === 'Admin' || user.role === 'Shopper' || user.role === 'Customer'){
+            return res.status(401).json({
+                error: "Dealer resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
+
+
+exports.ShopperMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
+
+        if (user.role === 'Admin' || user.role === 'Dealer' || user.role === 'Customer'){
+            return res.status(401).json({
+                error: "Shopper resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
+
+exports.CustomerMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
+
+        if (user.role === 'Admin' || user.role === 'Shopper' || user.role === 'Dealer'){
+            return res.status(401).json({
+                error: "Customer resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
+
+exports.AdminMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
+
+        if (user.role === 'Dealer' || user.role === 'Shopper' || user.role === 'Customer'){
+            return res.status(401).json({
+                error: "Admin resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
+
+exports.DealerAdminMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
+
+        if (user.role === 'Shopper' || user.role === 'Customer'){
+            return res.status(401).json({
+                error: "Dealer and Admin resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
+
+exports.ShopperCustomerMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
+
+        if (user.role === 'Admin' || user.role === 'Dealer'){
+            return res.status(401).json({
+                error: "Shopper Customer resource !!! Access Denied"
+            })
+        }
+
+        req.profile = user;
+        next();
+    })
+}
