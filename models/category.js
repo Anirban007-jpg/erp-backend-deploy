@@ -5,14 +5,19 @@ const categorySchema = new mongoose.Schema({
     category_name: {
         type: String,
         index: true,
-        lowerCase: true
+        unique: true
     },
     slug: {
-        type: String
+        type: String,
+        index: true,
+        unique: true
     },
     created_on : {
         type: Date,
         default: Date.now()
+    },
+    updated_on : {
+        type: Date
     }
 },{});
 
