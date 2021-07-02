@@ -2,8 +2,7 @@ const express = require('express');
 
 
 const { requireSignin, AuthMiddleware, DealerMiddleware, DealerAdminMiddleware,AdminMiddleware } = require('../controllers/auth');
-const {runValidations} = require('../validators/index');
-const {categoryCreateValidator} = require('../validators/category');
+
 const {createCat, ListCategories, readCat, updateCat, deleteCat} = require('../controllers/category');
 
 const router = express.Router();
