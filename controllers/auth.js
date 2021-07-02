@@ -19,7 +19,7 @@ exports.googleLogin = (req,res) => {
             User.findOne({ email }).exec((err, user) => {
                 if (user) {
                     // console.log(user)
-                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
                     res.cookie('token', token, { expiresIn: '1d' });
                     const { _id, email, name, role, username, about, youtube, twitter , facebook, address, mobile_no, registered_on } = user;
                     return res.json({ token, user: {  _id, email, name, role, username, about, youtube, twitter , facebook, address, mobile_no, registered_on  } });
@@ -142,10 +142,10 @@ exports.Login = (req,res) => {
 
         // if password is right
         // generate json web token
-        const token = jwt.sign({_id: data._id}, process.env.JWT_SECRET, {expiresIn: '18h'});
+        const token = jwt.sign({_id: data._id}, process.env.JWT_SECRET, {expiresIn: '2h'});
 
         // generate cookie and send it to Frontend
-        res.cookie('token',token,{expiresIn: '18h'});
+        res.cookie('token',token,{expiresIn: '2h'});
         const {_id,registered_on,name,email,address,mobile_no,about,role,username,youtube,twitter,facebook} = data;
         // send all data to Frontend
         return res.status(200).json({

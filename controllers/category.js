@@ -4,7 +4,13 @@ const slugify = require('slugify');
 
 exports.createCat = (req,res) => {
     const {category_name} = req.body;
+    if (category_name === ""){
+        return res.status(400).json({
+            error: "Category Is mandatory"
+        })
+    }
     const slug = slugify(category_name);
+    
     const category = new Category({category_name, slug});
     category.save((err, result) => {
         if (err){
