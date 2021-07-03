@@ -4,6 +4,7 @@ const slugify = require('slugify');
 
 exports.createCat = (req,res) => {
     const {category_name} = req.body;
+    
     if (category_name === ""){
         return res.status(400).json({
             error: "Category Is mandatory"
@@ -11,27 +12,29 @@ exports.createCat = (req,res) => {
     }
     const slug = slugify(category_name);
     
-    const category = new Category({category_name, slug});
-
     Category.findOne({category_name}).exec((err,data) => {
         if (data || err){
             return res.status(400).json({
                 error: "Category must be unique"
             })
         }
-    })
-    
-    category.save((err, result) => {
-        if (err){
-            return res.status(400).json({
-                error: "Category couldn't be created !!! Try again"
-            })
-        }
 
-        res.status(200).json({
-            message: "Product Category Created Successfully!!!"
-        });
+        const category = new Category({category_name, slug});
+    
+        category.save((err, result) => {
+            if (err){
+                return res.status(400).json({
+                    error: "Category couldn't be created !!! Try again"
+                })
+            }
+    
+            res.status(200).json({
+                message: "Product Category Created Successfully!!!"
+            });
+        })
     })
+
+ 
 }
 
 exports.ListCategories = (req,res) => {
