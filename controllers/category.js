@@ -12,6 +12,15 @@ exports.createCat = (req,res) => {
     const slug = slugify(category_name);
     
     const category = new Category({category_name, slug});
+
+    Category.findOne({category_name}).exec((err,data) => {
+        if (data || err){
+            return res.status(400).json({
+                error: "Category must be unique"
+            })
+        }
+    })
+    
     category.save((err, result) => {
         if (err){
             return res.status(400).json({
