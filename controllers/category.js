@@ -39,7 +39,7 @@ exports.createCat = (req,res) => {
 
 exports.ListCategories = (req,res) => {
     
-    let categories;
+    let categories
 
     Category
     .find({})
@@ -51,8 +51,9 @@ exports.ListCategories = (req,res) => {
             }) 
         }
 
+        categories = data;
         res.status(200).json({
-            categories: data
+            categories
         });
     })
 }

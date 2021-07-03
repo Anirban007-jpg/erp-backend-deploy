@@ -11,9 +11,9 @@ const router = express.Router();
 // create category route
 router.post('/category/create', requireSignin, DealerMiddleware, createCat);
 // list of categories route
-router.get('/categories',  requireSignin, DealerAdminMiddleware, ListCategories);
+router.get('/categories',  ListCategories);
 // read a single category route
-router.get('/category/:slug', requireSignin, DealerAdminMiddleware, readCat);
+router.get('/category/:slug', readCat);
 // update a category 
 router.put('/category/:slug', requireSignin, DealerMiddleware, updateCat);
 // delete a category route
