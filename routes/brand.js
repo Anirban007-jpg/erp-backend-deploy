@@ -11,9 +11,9 @@ const router = express.Router();
 // create brand route
 router.post('/brand/create', requireSignin, DealerMiddleware, createBrand);
 // list of brand route
-router.get('/brands',  requireSignin, DealerAdminMiddleware, ListBrands);
+router.get('/brands',  ListBrands);
 // read a single brand route
-router.get('/brand/:slug', requireSignin, DealerAdminMiddleware, readBrand);
+router.get('/brand/:slug', readBrand);
 // update a brand 
 router.put('/brand/:slug', requireSignin, DealerMiddleware, updateBrand);
 // delete a brand route
