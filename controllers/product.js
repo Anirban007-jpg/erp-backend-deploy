@@ -68,3 +68,17 @@ exports.createProduct = (req,res) => {
                 message: "Product created successfully!!"
         });
 }
+
+
+exports.read = (req,res) => {
+
+        let products
+
+        Product.find({}).exec((err,data) => {
+                data = products;                
+                res.status(200).json({
+                        products
+                })
+        })
+        
+}
