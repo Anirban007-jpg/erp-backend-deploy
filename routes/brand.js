@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 // create brand route
-router.post('/brand/create', requireSignin, DealerMiddleware, createBrand);
+router.post('/brand/create', requireSignin, DealerAdminMiddleware, createBrand);
 // list of brand route
 router.get('/brands',  ListBrands);
 // read a single brand route

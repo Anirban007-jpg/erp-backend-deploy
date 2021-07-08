@@ -61,6 +61,9 @@ exports.ListCategories = (req,res) => {
 exports.readCat = (req,res) => {
     const slug = req.params.slug;
 
+    let category
+
+    
     Category
     .findOne({slug: slug})
     .select('category_name slug _id')
@@ -71,8 +74,9 @@ exports.readCat = (req,res) => {
             }) 
         }
 
+        category = data;
         res.status(200).json({
-            data
+            category
         });
     })
 }

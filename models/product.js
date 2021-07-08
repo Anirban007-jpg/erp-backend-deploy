@@ -4,7 +4,7 @@ const {ObjectId} = mongoose.Schema;
 const productSchema = new mongoose.Schema({
     // username is a field name in the table User(users)
     category: {
-        type: ObectId,
+        type: ObjectId,
         ref: "Category"
     },
     brand : {
@@ -17,7 +17,9 @@ const productSchema = new mongoose.Schema({
         lowerCase: true
     },
     slug: {
-        type: String
+        type: String,
+        lowercase: true,
+        index:true
     },
     Model_Number : {
         type: String  
@@ -50,9 +52,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         enum : ["Yes","No"]
     },
-    photos : {
-        type: Array
-    },
+    // photos : {
+    //     type: Array
+    // },
     // ratings : [
     //     {
     //         star: Number,

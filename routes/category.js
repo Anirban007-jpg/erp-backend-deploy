@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 // create category route
-router.post('/category/create', requireSignin, DealerMiddleware, createCat);
+router.post('/category/create', requireSignin, DealerAdminMiddleware, createCat);
 // list of categories route
 router.get('/categories',  ListCategories);
 // read a single category route
