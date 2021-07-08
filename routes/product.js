@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 // create product route
-router.post('/category/create', requireSignin, DealerAdminMiddleware, createProduct);
+router.post('/product/create', requireSignin, DealerAdminMiddleware, createProduct);
 
 
 module.exports = router;

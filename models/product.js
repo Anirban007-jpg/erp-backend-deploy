@@ -3,14 +3,14 @@ const {ObjectId} = mongoose.Schema;
 
 const productSchema = new mongoose.Schema({
     // username is a field name in the table User(users)
-    category: {
-        type: ObjectId,
-        ref: "Category"
-    },
-    brand : {
-        type: ObjectId,
-        ref: "Brand"
-    },
+    // category: {
+    //     type: ObjectId,
+    //     ref: "Category"
+    // },
+    // brand : {
+    //     type: ObjectId,
+    //     ref: "Brand"
+    // },
     product_name: {
         type: String,
         index: true,
@@ -39,6 +39,12 @@ const productSchema = new mongoose.Schema({
     product_sold : {
         type: Number,
         default: 0
+    },
+    product_country : {
+        type: String
+    },
+    product_price : {
+        type: Number
     },
     entry_on : {
         type: Date,

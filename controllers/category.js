@@ -43,7 +43,7 @@ exports.ListCategories = (req,res) => {
 
     Category
     .find({})
-    .select('category_name slug created_on')
+    .select('_id category_name slug created_on')
     .exec((err, data) => {
         if (err) {
             return res.status(400).json({

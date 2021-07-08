@@ -64,7 +64,7 @@ exports.readBrand = (req,res) => {
     let brand
     Brand
     .findOne({slug: slug})
-    .select('brand_name slug _id')
+    .select('_id brand_name slug _id')
     .exec((err, data) => {
         if (err) {
             return res.status(400).json({
