@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 // create product route
-router.post('/product/create', requireSignin, DealerAdminMiddleware, createProduct);
+router.post('/product/create', createProduct);
 // get products route
 router.get('/products', read);
 router.get("/product/:productId/:imageName", photo);

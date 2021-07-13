@@ -14,7 +14,7 @@ exports.createProduct = (req,res) => {
         form.parse(req, (err,fields,files) => {
 
                
-                const {product_name,product_color,product_price,product_description,product_size,Model_Number,product_country,product_quantity,slug} = fields;
+                const {shipping,category,brand,product_name,product_color,product_price,product_description,product_size,Model_Number,product_country,product_quantity} = fields;
 
                 if (product_name === ""){
                         return res.status(400).json({
@@ -65,7 +65,9 @@ exports.createProduct = (req,res) => {
                         product_description,
                         product_size,
                         Model_Number,
-                        shipping
+                        shipping, 
+                        category, 
+                        brand
                 
                 });
                 
@@ -127,7 +129,10 @@ exports.read = (req,res) => {
 
         let products
 
-        Product.find({}).exec((err,data) => {
+        Product.find({})
+        .populate('category', 'category_name slug')
+        .populate('brand', 'brand_name slug')
+        .exec((err,data) => {
                 products = data;                
                 res.status(200).json({
                         products
