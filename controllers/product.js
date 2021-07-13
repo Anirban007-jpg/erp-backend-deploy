@@ -64,7 +64,8 @@ exports.createProduct = (req,res) => {
                         product_color,
                         product_description,
                         product_size,
-                        Model_Number
+                        Model_Number,
+                        shipping
                 
                 });
                 
@@ -112,7 +113,7 @@ exports.createProduct = (req,res) => {
                         }
 
                         res.status(200).json({
-                                result
+                                message: "product created successfully"
                         })
                 })
 
