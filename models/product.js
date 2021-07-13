@@ -40,9 +40,12 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    product_country : {
-        type: String
-    },
+    // product_country : [{
+    //     type: String
+    // }],
+    // product_currencies: [{
+    //     type: String
+    // }],
     product_price : {
         type: Number
     },
@@ -58,9 +61,13 @@ const productSchema = new mongoose.Schema({
         type: String,
         enum : ["Yes","No"]
     },
-    // photos : {
-    //     type: Array
-    // },
+    photos : [
+        {
+            photoName: String,
+            data : {type :Buffer},
+            contentType : String
+        }
+    ],
     // ratings : [
     //     {
     //         star: Number,

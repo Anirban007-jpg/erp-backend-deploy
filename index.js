@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const fs = require('fs');
+// const fileupload = require('express-fileupload'); 
 require('dotenv').config();
 
 //app
@@ -13,6 +14,7 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cp())
+// app.use(fileupload({useTempFiles: true}))
 
 // db
 // mongoose.connect(parameter1 = connection string in .env file using dotenv package, {if any warning include it here}).then(() => {logic});
