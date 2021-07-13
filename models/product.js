@@ -64,7 +64,7 @@ const productSchema = new mongoose.Schema({
     photos : [
         {
             photoName: String,
-            data : {type :Buffer},
+            data : Buffer,
             contentType : String
         }
     ],

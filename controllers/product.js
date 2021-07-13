@@ -5,6 +5,7 @@ const fs= require('fs');
 
 exports.createProduct = (req,res) => {
 
+
         // const {product_name, Model_Number,product_color,photos, product_size, product_country,product_quantity,product_price,product_description} = req.body;
         var form = new f.IncomingForm();
 
@@ -13,7 +14,7 @@ exports.createProduct = (req,res) => {
         
         form.parse(req, (err,fields,files) => {
 
-               
+         
                 const {shipping,category,brand,product_name,product_color,product_price,product_description,product_size,Model_Number,product_country,product_quantity} = fields;
 
                 if (product_name === ""){
@@ -58,6 +59,7 @@ exports.createProduct = (req,res) => {
                                 error: "Product Description is mandatory && should be 20 charecters long"
                         })        
                 }
+                
 
                 let product = new Product({
                         product_name,
@@ -76,7 +78,7 @@ exports.createProduct = (req,res) => {
                 product.product_price = parseFloat(product_price);
                 
 
-
+                
                 // slug = slugify(product_name);
 
                 Product.findOne({slug:  product.slug}).exec((err, data) => {
@@ -92,7 +94,7 @@ exports.createProduct = (req,res) => {
                                 })  
                         }
                 })
-
+        
                 if (files.photos){
                         files.photos.forEach(file => {
                                 if (file.size >  1000000){
