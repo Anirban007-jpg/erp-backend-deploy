@@ -170,11 +170,11 @@ exports.updateProduct = (req,res) => {
 }
 
 exports.readProduct = (req,res) => {
-        const productId = req.params.productId;
+        const slug = req.params.productId;
 
         let product 
 
-        Product.findOne({_id: productId}).exec((err, data) => {
+        Product.findOne({slug}).exec((err, data) => {
                 if (err || !data){
                         return res.status(404).json({
                             error: 'Product not found'

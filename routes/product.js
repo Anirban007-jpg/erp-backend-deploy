@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/product/create', requireSignin, DealerAdminMiddleware, createProduct);
 // get products route
 router.get('/products', read);
-router.get('/product/:productId', readProduct);
+router.get('/product/:slug', readProduct);
 router.get("/product/:productId/:imageName", photo);
 router.put('/product/:productId', updateProduct);
 
