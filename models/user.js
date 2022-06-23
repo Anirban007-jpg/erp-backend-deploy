@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     // username is a field name in the table User(users)
-    username: {
+    PanNo: {
         type: String,
         trim: true,
-        index: true,
-        lowerCase: true
+        upperCase: true
     },
     name: {
         type: String,
@@ -32,13 +31,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         // default: "Customer"
     },
+    Sex : {
+        type: String
+    },
     profilepic: {
         data: Buffer,
         contentType: String
-    },
-    purchaseHistory: {
-        type: Array,
-        default: []
     },
     password: {
         type: String
@@ -50,18 +48,14 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    youtube: {
-        type: String
-    },
-    twitter: {
-        type: String
-    },
-    facebook: {
-        type: String
-    },
     registered_on: {
         type: Date,
         default: Date.now()
+    },
+    Acknowledgement_No:{
+        type: String, 
+        trim: true,
+        upperCase: true
     },
     updated_on: {
         type: Date
