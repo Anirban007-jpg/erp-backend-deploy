@@ -103,7 +103,7 @@ exports.Register = (req, res) => {
         }
         res.status(200).json({
             message: `You have been registered successfully! Your Acknowlegement No is ${Acknowledgement_No}`
-        });
+        })
     })
     })
 }
