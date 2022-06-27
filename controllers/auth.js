@@ -98,7 +98,7 @@ exports.Register = (req, res) => {
     user.save((err, result) => {
         if (err){
             return res.status(400).json({
-                error: err
+                error: error
             })
         }
         res.status(200).json({
@@ -109,51 +109,51 @@ exports.Register = (req, res) => {
 }
 
 
-// exports.Login = (req,res) => {
-//     // accept email and password from frontend
-//     const {email, password} = req.body;
+exports.Login = (req,res) => {
+    // accept email and password from frontend
+    const {PanNo, password} = req.body;
 
-//     // check if user with this email exist or not exist
-//     User.findOne({email}).exec((err, data) => {
-//         // check if data is present or not
-//         if (err){
-//             return res.status(400).json({
-//                 error: err
-//             })
-//         }
-//         if (!data){
-//             return res.status(400).json({
-//                 error: 'Such an user does not exist'
-//             })
-//         }
+    // check if user with this email exist or not exist
+    User.findOne({PanNo}).exec((err, data) => {
+        // check if data is present or not
+        if (err){
+            return res.status(400).json({
+                error: err
+            })
+        }
+        if (!data){
+            return res.status(400).json({
+                error: 'Such an user does not exist'
+            })
+        }
 
-//         // if user present
-//         // checking password given is right or Wrong
-//         var checked = bcrypt.compareSync(password, data.password);
+        // if user present
+        // checking password given is right or Wrong
+        var checked = bcrypt.compareSync(password, data.password);
 
 
-//         // if password is wrong
-//         if (!checked) {
-//             return res.status(403).json({
-//                 error: 'Wrong Password entered'
-//             })
-//         }
+        // if password is wrong
+        if (!checked) {
+            return res.status(403).json({
+                error: 'Wrong Password entered'
+            })
+        }
 
-//         // if password is right
-//         // generate json web token
-//         const token = jwt.sign({_id: data._id}, process.env.JWT_SECRET, {expiresIn: '2h'});
+        // if password is right
+        // generate json web token
+        const token = jwt.sign({_id: data._id}, process.env.JWT_SECRET, {expiresIn: '50m'});
 
-//         // generate cookie and send it to Frontend
-//         res.cookie('token',token,{expiresIn: '2h'});
-//         const {_id,registered_on,name,email,address,mobile_no,about,role,username,youtube,twitter,facebook} = data;
-//         // send all data to Frontend
-//         return res.status(200).json({
-//             token,
-//             user: {_id,registered_on,name,email,address,mobile_no,about,role,username,youtube,twitter,facebook},
-//             message: "User Signed in Successfully"
-//         });
-//     })
-// }
+        // generate cookie and send it to Frontend
+        res.cookie('token',token,{expiresIn: '2h'});
+        const {_id,Acknowledgement_No,role} = data;
+        // send all data to Frontend
+        return res.status(200).json({
+            token,
+            user: {_id,Acknowledgement_No,role},
+            message: "User Signed in Successfully"
+        });
+    })
+}
 
 // exports.Logout = (req,res) => {
 //     res.clearCookie('token');
