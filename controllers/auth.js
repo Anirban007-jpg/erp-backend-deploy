@@ -157,12 +157,12 @@ exports.Login = (req,res) => {
     })
 }
 
-// exports.Logout = (req,res) => {
-//     res.clearCookie('token');
-//     res.status(200).json({
-//         message: "Signout Successful"
-//     });
-// }
+exports.Logout = (req,res) => {
+    res.clearCookie('token');
+    res.status(200).json({
+        message: "Signout Successful"
+    });
+}
 
 
 exports.requireSignin = ejwt({
@@ -277,139 +277,80 @@ exports.requireSignin = ejwt({
 //     }
 // }
 
-// // From here upto the last comment ei gulo is for authorization
-// exports.AuthMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
+// From here upto the last comment ei gulo is for authorization
+exports.AuthMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
 
-//         // request will store the user information in a object called profile
-//         req.profile = user;
-//         next();
-//     })
-// }
+        // request will store the user information in a object called profile
+        req.profile = user;
+        next();
+    })
+}
 
-// exports.DealerMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
+exports.CustomerMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
 
-//         if (user.role === 'Admin' || user.role === 'Shopper' || user.role === 'Customer'){
-//             return res.status(401).json({
-//                 error: "Dealer resource !!! Access Denied"
-//             })
-//         }
+        if (user.role === 'CA' || user.role === 'CMA'){
+            return res.status(401).json({
+                error: "Taxpayer's resource !!! Access Denied"
+            })
+        }
 
-//         req.profile = user;
-//         next();
-//     })
-// }
+        req.profile = user;
+        next();
+    })
+}
 
 
-// exports.ShopperMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
+exports.AdminMiddleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
 
-//         if (user.role === 'Admin' || user.role === 'Dealer' || user.role === 'Customer'){
-//             return res.status(401).json({
-//                 error: "Shopper resource !!! Access Denied"
-//             })
-//         }
+        if (user.role === 'CMA' || user.role === 'Taxpayer'){
+            return res.status(401).json({
+                error: "Admin resource !!! Access Denied"
+            })
+        }
 
-//         req.profile = user;
-//         next();
-//     })
-// }
+        req.profile = user;
+        next();
+    })
+}
 
-// exports.CustomerMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
+exports.Admin2Middleware = (req,res,next) => {
+    const authUserId = req.auth._id;
+    User.findById({_id: authUserId}).exec((err,user) => {
+        if (err || !user){
+            return res.status(400).json({
+                error: "User isn't signed in"
+            })
+        }
 
-//         if (user.role === 'Admin' || user.role === 'Shopper' || user.role === 'Dealer'){
-//             return res.status(401).json({
-//                 error: "Customer resource !!! Access Denied"
-//             })
-//         }
+        if (user.role === 'CA' || user.role === 'Taxpayer'){
+            return res.status(401).json({
+                error: "Admin resource !!! Access Denied"
+            })
+        }
 
-//         req.profile = user;
-//         next();
-//     })
-// }
+        req.profile = user;
+        next();
+    })
+}
 
-// exports.AdminMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
-
-//         if (user.role === 'Dealer' || user.role === 'Shopper' || user.role === 'Customer'){
-//             return res.status(401).json({
-//                 error: "Admin resource !!! Access Denied"
-//             })
-//         }
-
-//         req.profile = user;
-//         next();
-//     })
-// }
-
-// exports.DealerAdminMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
-
-//         if (user.role === 'Shopper' || user.role === 'Customer'){
-//             return res.status(401).json({
-//                 error: "Dealer and Admin resource !!! Access Denied"
-//             })
-//         }
-
-//         req.profile = user;
-//         next();
-//     })
-// }
-
-// exports.ShopperCustomerMiddleware = (req,res,next) => {
-//     const authUserId = req.auth._id;
-//     User.findById({_id: authUserId}).exec((err,user) => {
-//         if (err || !user){
-//             return res.status(400).json({
-//                 error: "User isn't signed in"
-//             })
-//         }
-
-//         if (user.role === 'Admin' || user.role === 'Dealer'){
-//             return res.status(401).json({
-//                 error: "Shopper Customer resource !!! Access Denied"
-//             })
-//         }
-
-//         req.profile = user;
-//         next();
-//     })
-// }
