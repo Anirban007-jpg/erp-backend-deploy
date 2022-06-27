@@ -14,7 +14,7 @@ exports.userRegisterValidator = [
 
 
 exports.userSigninValidator = [
-    check('email').not().isEmpty().withMessage('Email is mandatory'),
+    check('PanNo').not().isEmpty().withMessage('Pan No is mandatory'),
     check('password').not().isEmpty().withMessage('Password is mandatory')
 ];
 

@@ -5,6 +5,8 @@ const _ = require('lodash');
 // require('dotenv').config()
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const ejwt = require('express-jwt');
 
 // const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // exports.googleLogin = (req,res) => {
@@ -163,11 +165,11 @@ exports.Login = (req,res) => {
 // }
 
 
-// exports.requireSignin = ejwt({
-//     secret: process.env.JWT_SECRET,
-//     algorithms: ["HS256"],
-//     userProperty: "auth"
-// });
+exports.requireSignin = ejwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+    userProperty: "auth"
+});
 
 // exports.forgotpassword = (req,res) => {
 //     const {email} = req.body;
