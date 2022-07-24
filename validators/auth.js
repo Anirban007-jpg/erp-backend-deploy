@@ -18,6 +18,17 @@ exports.userSigninValidator = [
     check('password').not().isEmpty().withMessage('Password is mandatory')
 ];
 
+exports.dataverify = [
+    check('current_deposits_savings_deposits').not().isEmpty().withMessage('Current Deposits amount is mandatory'),
+    check('total_deposits').not().isEmpty().withMessage('Total Deposits amount is mandatory')
+];
+
+
+exports.dataverify1 = [
+    // check('current_deposits').not().isEmpty().withMessage('Current Deposits amount is mandatory'),
+    // check('savings_deposits').not().isEmpty().withMessage('Savings Deposits amount is mandatory')
+];
+
 // exports.forgotPasswordValidator = [
 //     check('email').not().isEmpty().withMessage('Email is mandatory')
 // ];
