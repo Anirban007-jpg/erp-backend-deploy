@@ -108,7 +108,8 @@ exports.calculatecurrentassetsandliabilities = (req,res) => {
     let ca = Other_Current_Assets+Inventory+Deffered_Income_Taxes+Income_Taxes_Receivables+account_receivables+Current_Investments+short_term_loan_and_advance+Cash_and_Cash_Equivalents;
     let cl = Trade_Payables+Other_Current_Liabilities+Short_Term_Provision+Short_Term_Borrowings;
     
-
+    let cl1 = Trade_Payables+Other_Current_Liabilities+Short_Term_Provision;
+    let NetWorkingCapital = ca-cl1;
 
     return res.status(200).json({
         result : {
@@ -124,7 +125,8 @@ exports.calculatecurrentassetsandliabilities = (req,res) => {
             Short_Term_Provision,
             Short_Term_Borrowings,
             ca,
-            cl
+            cl,
+            NetWorkingCapital
         }
     })
 }
@@ -138,4 +140,97 @@ exports.currentRatio = (req,res) => {
             currentRatio
         }
     })    
+}
+
+exports.quickratio = (req,res) => {
+    let CurrentAssets = parseFloat(req.body.ca);
+    let Inventories = parseFloat(req.body.inventories);
+    let PE = parseFloat(req.body.PE);
+    let Quick_Assets = CurrentAssets-Inventories-PE;
+    let Current_Liabilities = parseFloat(req.body.cl);
+    let QR = (Quick_Assets/Current_Liabilities);
+    let Quick_Ratio = parseFloat(QR).toFixed(2);
+    return res.status(200).json({
+        result: {
+            Quick_Ratio
+        }
+    }) 
+}
+
+exports.absoluteLiquidityRatio = (req,res) => {
+    let Cash_Balance =  parseFloat(req.body.CashatHand);
+    let Bank_Balance = parseFloat(req.body.CashatBank);
+    let Current_Investments = parseFloat(req.body.Current_Investments);
+    let Current_Liabilities = parseFloat(req.body.Current_Liabilities);
+    let Cash_Ratio = parseFloat((Cash_Balance+Bank_Balance+Current_Investments)/Current_Liabilities).toFixed(2);
+    return res.status(200).json({
+        result: {
+            Cash_Ratio
+        }
+    })
+}
+
+exports.BasicDefenseInterval = (req,res) => {
+    let COGS = parseFloat(req.body.COGS);
+    let S_A = parseFloat(req.body.S_A);
+    let Depreciation_OtherNonCashExpenditure = parseFloat(req.body.Depreciation_OtherNonCashExpenditure);
+    let NoD = parseFloat(req.body.NoD);
+    let DOE = parseFloat((COGS+S_A-Depreciation_OtherNonCashExpenditure)/NoD).toFixed(2);
+    let CA = parseFloat(req.body.CA);
+    let Prepaid_Expenses = parseFloat(req.body.Prepaid_Expenses);
+    let Inventory = parseFloat(req.body.Inventory);
+    let BDI = parseFloat((CA-Prepaid_Expenses-Inventory)/DOE).toFixed(2);
+    return res.status(200).json({
+        result: {
+            DOE,
+            BDI
+        }
+    })
+}
+
+exports.EquityRatio = (req,res) => {
+    let general_Reserve = parseFloat(req.body.General_Reserve);
+    let addition_during_the_year = parseFloat(req.body.adty);
+    let no_of_equity_shares = parseInt(req.body.no_of_equity_shares);
+    let Equity_Share_Face_Value = parseFloat(req.body.Face_Value);
+    let Authorised_Capital = parseFloat(no_of_equity_shares*Equity_Share_Face_Value).toFixed(2);   
+    let Issued_Capital = parseFloat(no_of_equity_shares*Equity_Share_Face_Value).toFixed(2);   
+    let Securities_Premium = parseFloat(req.body.SP);
+    let Premium_on_redemption_of_Preference_Share = parseFloat(req.body.prps);
+    let Capital_Redemption_Reserve = parseFloat(req.body.CRR);
+    let Reissued_Face_Value = parseInt(req.body.RFV);
+    let Forfited_Share_Value = parseInt(req.body.FSV);
+    let no_of_shares = parseFloat(req.body.nos);
+    let Amount_Received = parseFloat(Forfited_Share_Value*no_of_shares).toFixed(2);
+    let ReIssued_Amount_received = parseFloat((Forfited_Share_Value-Reissued_Face_Value)*no_of_shares).toFixed(2);
+    let Capital_Reserve = parseFloat(Amount_Received -ReIssued_Amount_received).toFixed(2);
+    let Priliminary_Expenses = parseFloat(req.body.Priliminary_Expenses);
+    let Profit_and_Loss_for_the_year = parseFloat(req.body.PL);
+    let Profit_For_the_Year = parseFloat(req.body.PY);
+    let surplus = parseFloat(Profit_and_Loss_for_the_year+Profit_For_the_Year).toFixed(2);
+    let Preferetial_dividend_Paid = parseFloat(req.body.PDP);
+    let Transfer_To_General_Reserve = parseFloat(req.body.TGR);
+    let Interim_Dividend_paid = parseFloat(req.body.IDP);
+    let Final_Dividend_paid = parseFloat(req.body.FDP);
+    let Corporate_Dividend_Tax = parseFloat(req.body.CDT);
+    let Proposed_Prefence_Dividend_paid = parseFloat(req.body.PPDP);
+    let Proposed_Equity_Dividend_paid = parseFloat(req.body.PEDP);
+    let Appropriations = parseFloat(Preferetial_dividend_Paid+Transfer_To_General_Reserve+Interim_Dividend_paid+Final_Dividend_paid+Corporate_Dividend_Tax+Proposed_Prefence_Dividend_paid+Proposed_Equity_Dividend_paid);
+    let Calls_in_arrears = parseFloat(req.body.CIA);
+    let Reserve_and_Surplus = parseFloat(general_Reserve+addition_during_the_year+Authorised_Capital+Issued_Capital+(Securities_Premium-Premium_on_redemption_of_Preference_Share)+Capital_Redemption_Reserve+Capital_Reserve-Priliminary_Expenses-Calls_in_arrears+surplus-Appropriations).toFixed(2);
+    let Equity_Share_Capital = parseFloat(req.body.ESC);
+    let Preference_Share_Capital = parseFloat(req.body.PSC);
+    let Shareholder_Equity = parseFloat(Reserve_and_Surplus + Equity_Share_Capital + Preference_Share_Capital).toFixed(2);
+    let Current_Assets = parseFloat(req.body.CA);
+    let Current_Liabilities = parseFloat(req.body.CL);
+    let Net_Assets = parseFloat(Current_Assets-Current_Liabilities);
+    let Equity_Ratio = parseFloat(Shareholder_Equity/Net_Assets).toFixed(2);
+    return res.status(200).json({
+        result : {
+            Reserve_and_Surplus,
+            ShareHolder_Equity,
+            Net_Assets,
+            Equity_Ratio
+        }
+    })
 }
