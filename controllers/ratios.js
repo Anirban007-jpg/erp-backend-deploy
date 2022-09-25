@@ -108,7 +108,7 @@ exports.calculatecurrentassetsandliabilities = (req,res) => {
     let ca = Other_Current_Assets+Inventory+Deffered_Income_Taxes+Income_Taxes_Receivables+account_receivables+Current_Investments+short_term_loan_and_advance+Cash_and_Cash_Equivalents;
     let cl = Trade_Payables+Other_Current_Liabilities+Short_Term_Provision+Short_Term_Borrowings;
     
-    let cl1 = Trade_Payables+Other_Current_Liabilities+Short_Term_Provision;
+    let cl1 = Trade_Payables+Other_Current_Liabilities+Short_Term_Provision+Short_Term_Borrowings;
     let NetWorkingCapital = ca-cl1;
 
     return res.status(200).json({
@@ -152,6 +152,7 @@ exports.quickratio = (req,res) => {
     let Quick_Ratio = parseFloat(QR).toFixed(2);
     return res.status(200).json({
         result: {
+            Quick_Assets,
             Quick_Ratio
         }
     }) 
@@ -178,10 +179,20 @@ exports.BasicDefenseInterval = (req,res) => {
     let DOE = parseFloat((COGS+S_A-Depreciation_OtherNonCashExpenditure)/NoD).toFixed(2);
     let CA = parseFloat(req.body.CA);
     let Prepaid_Expenses = parseFloat(req.body.Prepaid_Expenses);
-    let Inventory = parseFloat(req.body.Inventory);
+    let Opening_Stock = parseFloat(req.body.OpeningStock);
+    let Purchase = parseFloat(req.body.Purchase);
+    let Purchase_Return = parseFloat(req.body.Purchase_Return);
+    let Closing_Stock = Opening_Stock+(Purchase-Purchase_Return)-COGS;
+    let loose_tools = parseFloat(req.body.LooseTools);
+    let Goods_in_Transit = parseFloat(req.body.GoodInTransit);
+    let Stock_in_Trade = parseFloat(req.body.StockInTrade);
+    let Stores_and_Spares = parseFloat(req.body.ss);
+    let Inventory = Closing_Stock+Goods_in_Transit+loose_tools+Stock_in_Trade+Stores_and_Spares;
     let BDI = parseFloat((CA-Prepaid_Expenses-Inventory)/DOE).toFixed(2);
     return res.status(200).json({
         result: {
+            Closing_Stock,
+            Inventory,
             DOE,
             BDI
         }
